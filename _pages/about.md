@@ -6,7 +6,7 @@ subtitle: <a href='#'>French Software Engineer</a>
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: cybercat.jpg
   image_circular: false # crops the image to make it circular
 
 news: true # includes a list of news items
