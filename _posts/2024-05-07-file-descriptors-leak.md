@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Plumbing101: The File Descriptors leak"
+title: "Computer Plumbing 101: The File Descriptors leak"
 date: 2024-05-07 18:11:00
 description: A post about file descriptors leak in python
 tags: memory leak
@@ -29,7 +29,7 @@ raw object) had been closed! But then I let the load test run for a longer perio
 As I was starting to understand where it could come from, I thought I’d build myself a convenient tool to better
 identify what was actually happening.
 
-# The Leak
+# Reproducing the leak
 
 If you want to easily reproduce the leak at home (why would you though ?), here's a nifty script to do so
 ```python
@@ -50,17 +50,16 @@ With this script, we can notice a steady increase on the number of file descript
 </p>
 <p align="center">This is what directly looking in the file descriptors folder of the process looks like</p>
 
-# The Tool
+# A tailored tool: fd-watcher
 
-Since I thought that this tool should have a really small time and memory overhead, I thought I’d write it in `C`. To be
+Since I thought that this tool should have a minimal time and memory overhead, I thought I’d write it in `C`. To be
 frank, this was an excuse to write some `C`, since I had always been fascinated by this language seeing my father write
 an absurd amount of code and always complaining about how easy it was to mess things up incredibly fast. 
 
 The logic behind this tool is pretty simple: as we suspect that the descriptors are leaking, we need to find a way to
-see if all descriptors that are open by a process at some point end up being closed. To further simplify, we can
+see if all descriptors that are open by a process at some point end up being closed. To simplify, we can
 actually only look at the evolution of the number of descriptors simultaneously opened by a process, and see if
 this number is increasing (and even exploding if there’s a leak).
-
 
 To do so, assuming we have sufficient privileges, we can look at /proc/<pid> where a lot of information on the process 
 is located, and in particular, a convenient folder called fd, where descriptors are opened and closed! We then only have
@@ -70,18 +69,34 @@ Ah, I see you wondering: “but wouldn’t it just be ls /proc/<pid> | wc -l in 
 Why did you bother to write 500 lines of C for this ?” Well you’re right, but it was fun and actually taught me an awful
 lot about C and its most incredible friend: stack buffer overflow  gdb.
 
+This is what the tool looks like for a leaky process:
 
-[include image of sample output and increasing counter depicting leak]
+<p align="center">
+<img alt="fd_watcher.png" width=60% src="../assets/img/fd_watcher.png"/>
+</p>
+
+Using this tool is extremely simple, you can monitor a process by name or by pid and specify a duration
+and the interval for the monitoring and it will output the number of opened descriptors in the console.
+
+# Future Developments
+
+Being extremely naive and simple in its implementation, it's not incredibly well coded while being functional, so a little 
+overhaul of the codebase would clearly be nice. Mainly, I think that this tool is missing a graphical/visualization part, especially since it's interesting to see at what rate
+the descriptors are leaking to identify the part of the code responsible for the leak. Maybe refactoring the codebase
+could also be nice, and making it a debian package/adding bindings to a small python package could ease the development
+and the integration in other monitoring stacks. I'll try to implement that as soon as I can !
+
 # The Grand Finale
 
-When I actually used the tool I built in the real setting and it revealed a gigantic growth of file descriptors clearly
-indicating that this was indeed the root cause of the leak, I couldn’t believe my eyes: I had built something useful
-for once and it had exhibited the problem that was plaguing my work until then!
-Then of course began the much less flashy part of the work where I had to put locks before the critical functions
-in my code to prevent this awful thing from happening, but I was happy anyways.
+When I actually used the tool I built on my use case and it revealed a gigantic leak of file descriptors,
+I couldn’t believe my eyes: I had coded something useful for once and it had shown the source of the problem!
+Then of course the much less flashy part of the work began where I had to put locks before the critical functions, but I was happy anyway.
 
-# Conclusion
+PS: Please build and share tools even if you think they’re useless, this seemingly little thing is actually the most useful
+thing I’ve built until now and I’m still using it whenever I have a leak to rule out descriptors.
 
-Please build and share tools even if you think they’re useless, this seemingly little thing is actually the most useful
-thing I’ve built until now and I’m still using it whenever I have a leak to rule out descriptors! I’ll also finish 
-re-writing it in Rust soon when I’ll get time and maybe add nifty features to it to make it more user-friendly!
+Check it out if you want !
+
+<p align="center">
+<img class="repo-img-dark w-100" alt="Mattcrmx/fd-watcher" src="https://github-readme-stats.vercel.app/api/pin/?username=Mattcrmx&amp;repo=fd-watcher&amp;theme=dark&amp;show_owner=true">
+</p>

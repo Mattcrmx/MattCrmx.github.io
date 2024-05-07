@@ -127,7 +127,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # -----------------------------------------------------------------------------
 
 blog_name: xcrm # blog_name will be displayed in your blog page
-blog_description: Matthias' blog
+blog_description: Matthias's blog
 permalink: /blog/:year/:title/
 
 # Pagination
@@ -182,7 +182,7 @@ announcements:
   limit: 5 # leave blank to include all the news in the `_news` folder
 
 latest_posts:
-  enabled: false
+  enabled: true
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 
