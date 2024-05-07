@@ -46,7 +46,7 @@ if __name__ == '__main__':
 ```
 With this script, we can notice a steady increase on the number of file descriptors (the blue numbers on the image):
 <p align="center">
-<img alt="fd_leak_proc.png" width=50% src="../assets/img/fd_leak_proc.png"/>
+<img alt="fd_leak_proc.png" width=50% src="assets/img/fd_leak_proc.png"/>
 </p>
 <p align="center">This is what directly looking in the file descriptors folder of the process looks like</p>
 
@@ -72,7 +72,7 @@ lot about C and its most incredible friend: stack buffer overflow  gdb.
 This is what the tool looks like for a leaky process:
 
 <p align="center">
-<img alt="fd_watcher.png" width=60% src="../assets/img/fd_watcher.png"/>
+<img alt="fd_watcher.png" width=60% src="assets/img/fd_watcher.png"/>
 </p>
 
 Using this tool is extremely simple, you can monitor a process by name or by pid and specify a duration
@@ -98,5 +98,5 @@ thing I’ve built until now and I’m still using it whenever I have a leak to 
 Check it out if you want !
 
 <p align="center">
-<img class="repo-img-dark w-100" alt="Mattcrmx/fd-watcher" src="https://github-readme-stats.vercel.app/api/pin/?username=Mattcrmx&amp;repo=fd-watcher&amp;theme=dark&amp;show_owner=true">
+<img class="repo-img-dark w-100" width="50%" alt="Mattcrmx/fd-watcher" src="https://github-readme-stats.vercel.app/api/pin/?username=Mattcrmx&amp;repo=fd-watcher&amp;theme=dark&amp;show_owner=true">
 </p>
