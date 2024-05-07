@@ -88,7 +88,7 @@ and the integration in other monitoring stacks. I'll try to implement that as so
 
 # The Grand Finale
 
-When I actually used the tool I built on my use case and it revealed a gigantic leak of file descriptors,
+When I actually used `fd-watcher` on my use case and it revealed a gigantic leak of file descriptors,
 I couldn’t believe my eyes: I had coded something useful for once and it had shown the source of the problem!
 Then of course the much less flashy part of the work began where I had to put locks before the critical functions, but I was happy anyway.
 
