@@ -46,7 +46,7 @@ if __name__ == '__main__':
 ```
 With this script, we can notice a steady increase on the number of file descriptors (the blue numbers on the image):
 <p align="center">
-{% include figure.liquid loading="eager" path="assets/img/fd_leak_proc.png" class="img-fluid rounded z-depth-1" %}
+{% include figure.liquid loading="eager" path="assets/img/fd_leak_proc.png" class="img-fluid rounded z-depth-1" style="width: 60%;" %}
 </p>
 <p align="center">
 This is what directly looking in the file descriptors folder of the process looks like</p>
@@ -66,14 +66,14 @@ To do so, assuming we have sufficient privileges, we can look at /proc/<pid> whe
 is located, and in particular, a convenient folder called fd, where descriptors are opened and closed! We then only have
 to list the number of files in that folder at a fixed interval and see if that number goes up ! 
 
-Ah, I see you wondering: “but wouldn’t it just be ls /proc/<pid> | wc -l in bash Matthias ?
-Why did you bother to write 500 lines of C for this ?” Well you’re right, but it was fun and actually taught me an awful
-lot about C and its most incredible friend: stack buffer overflow  gdb.
+Ah, I see you wondering: “but wouldn’t it just be `ls /proc/<pid> | wc -l` in bash Matthias ?
+Why did you bother to write 500 lines of `C` for this ?” Well you’re right, but it was fun and actually taught me an awful
+lot about C and its most incredible friend: stack buffer overflow and `gdb`.
 
 This is what the tool looks like for a leaky process:
 
 <p align="center">
-{% include figure.liquid loading="eager" path="assets/img/fd_watcher.png" class="img-fluid rounded z-depth-1" %}
+{% include figure.liquid loading="eager" path="assets/img/fd_watcher.png" class="img-fluid rounded z-depth-1" style="width: 60%;" %}
 </p>
 
 Using this tool is extremely simple, you can monitor a process by name or by pid and specify a duration
