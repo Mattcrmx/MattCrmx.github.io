@@ -46,9 +46,10 @@ if __name__ == '__main__':
 ```
 With this script, we can notice a steady increase on the number of file descriptors (the blue numbers on the image):
 <p align="center">
-<img alt="fd_leak_proc.png" width=50% src="assets/img/fd_leak_proc.png"/>
+{% include figure.liquid loading="eager" path="assets/img/fd_leak_proc.png" class="img-fluid rounded z-depth-1" %}
 </p>
-<p align="center">This is what directly looking in the file descriptors folder of the process looks like</p>
+<p align="center">
+This is what directly looking in the file descriptors folder of the process looks like</p>
 
 # A tailored tool: fd-watcher
 
@@ -72,7 +73,7 @@ lot about C and its most incredible friend: stack buffer overflow  gdb.
 This is what the tool looks like for a leaky process:
 
 <p align="center">
-<img alt="fd_watcher.png" width=60% src="assets/img/fd_watcher.png"/>
+{% include figure.liquid loading="eager" path="assets/img/fd_watcher.png" class="img-fluid rounded z-depth-1" %}
 </p>
 
 Using this tool is extremely simple, you can monitor a process by name or by pid and specify a duration
